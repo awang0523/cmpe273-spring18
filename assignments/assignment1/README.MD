@@ -1,19 +1,16 @@
-## Requirements
+# Install grpc tools
 
-You will be building a drone dancing simulator in Python using GRPC as a communication protocol.
+```sh
+pip install grpcio-tools
+```
 
-![](https://usatftw.files.wordpress.com/2018/02/drones.jpg)
+# Compile the proto file
 
-The simulator has two components:
-- Server
-- Client
+```sh
+python3 -m grpc.tools.protoc -I. --python_out=. --grpc_python_out=. drone.proto 
+```
 
-### Server
-
-The server is the main orchestrator to guide directions for all drone in the network. The role of server are:
-- Drone/client membership
-- Getting user inputs for the whole drone cluster movement and sending new coordinate to each drone.
-
+# Run
 To start the server with a x-axis distance between each drone:
 
 > python3 server.py {start_cooridnate} {peer_distance}
@@ -21,15 +18,6 @@ To start the server with a x-axis distance between each drone:
 ```sh
 python3 server.py 0,0,0 10,0,0
 ```
-
-Server log and waits for user input:
-
-```sh
-Server started at 3000.
-Enter New Cooridnate[x, y, z] > 
-```
-
-#### 1. Membership
 
 When a drone joins to the server, the server will response an unique client/drone id and a coordinate to be moved.
 
@@ -53,11 +41,3 @@ __Second Drone Log__
 Client id [xxxx] connected to the server.
 [received] moving to [10, 0, 0]
 ```
-
-#### 2. Getting user inputs and forwarding to drones
-
-When user enters a new coordinate in the server window, the server will forward new coordinates to all drones. You need to support for two drones in this assignment. Then, each client window will be prompted with new coordinate.
-
-### Client
-
-Each drone will act as a client which will be listening new coordinates from the server. The server to client communication is one-way (GRPC) streaming and the client will never send any messages back to the server.
