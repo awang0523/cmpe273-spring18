@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message IdReq {
+
+}
+
+message IdResp {
+    int32 uid = 1;
+}
+
+message CoordinateReq {
+    int32 uid = 1;
+}
+
+message CoordinateResp {
+    int32 x = 1;
+    int32 y = 2;
+    int32 z = 3;
+}
+
+service Directioner {
+    rpc Register(IdReq) returns (IdResp) {}
+    rpc GetCoordinate(CoordinateReq) returns (stream CoordinateResp) {}
+}
